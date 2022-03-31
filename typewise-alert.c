@@ -9,8 +9,7 @@
 
 BreachType inferBreach(double value, double lowerLimit, double upperLimit) 
 {
-  if()
-  else if(value < lowerLimit) 
+  if(value < lowerLimit) 
   {
     return TOO_LOW;
   }
@@ -51,7 +50,7 @@ BreachType classifyTemperatureBreach(CoolingType coolingType, double temperature
 
 void checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) 
 {
-  if( (MED_ACTIVE_COOLING => batteryChar.coolingType) && (TO_EMAIL => alertTarget) )
+  if( (MED_ACTIVE_COOLING >= batteryChar.coolingType) && (TO_EMAIL >= alertTarget) )
   {
     BreachType breachType = classifyTemperatureBreach(batteryChar.coolingType, temperatureInC);
     SystemAlert(alertTarget, breachType);
