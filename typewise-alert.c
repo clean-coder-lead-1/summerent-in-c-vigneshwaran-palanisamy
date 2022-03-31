@@ -9,7 +9,8 @@
 
 BreachType inferBreach(double value, double lowerLimit, double upperLimit) 
 {
-  if(value < lowerLimit) 
+  if()
+  else if(value < lowerLimit) 
   {
     return TOO_LOW;
   }
@@ -30,33 +31,47 @@ BreachType classifyTemperatureBreach(CoolingType coolingType, double temperature
   switch(coolingType) 
   {
     case PASSIVE_COOLING:
+      lowerLimit = 30;
       upperLimit = 35;
       break;
     case HI_ACTIVE_COOLING:
+      lowerLimit = 40;
       upperLimit = 45;
       break;
     case MED_ACTIVE_COOLING:
+      lowerLimit = 35;
       upperLimit = 40;
       break;
     default:
-      upperLimit = 45;
       break;
   }
   return inferBreach(temperatureInC, lowerLimit, upperLimit);
 }
 
+
 void checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) 
 {
+  if( (MED_ACTIVE_COOLING => batteryChar.coolingType) && (TO_EMAIL => alertTarget) )
+  {
+    BreachType breachType = classifyTemperatureBreach(batteryChar.coolingType, temperatureInC);
+    SystemAlert(alertTarget, breachType);
+  }
+  else
+  {
+    /* Do Nothing*/
+  }
+}
 
-  BreachType breachType = classifyTemperatureBreach(batteryChar.coolingType, temperatureInC);
 
-  switch(alertTarget) 
+void SystemAlert(AlertTarget alert, BreachType breach)
+{
+  switch(alert) 
   {
     case TO_CONTROLLER:
-      sendToController(breachType);
+      sendToController(breach);
       break;
     case TO_EMAIL:
-      sendToEmail(breachType);
+      sendToEmail(breach);
       break;
     default:
       /*Do Nothing */
